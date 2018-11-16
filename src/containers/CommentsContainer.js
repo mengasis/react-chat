@@ -5,12 +5,14 @@ import { addComment } from '../actions'
 import { getComments } from '../reducers'
 import { Pane } from '../components/Pane'
 import { CommentsList } from '../components/CommentsList'
+import { CommentEditor } from '../components/CommentEditor'
 
 const CommentsContainer = ({ comments, addComment }) => (
 	<>
 		<h1>Chat</h1>
 		<Pane>
 			<CommentsList comments={comments} />
+			<CommentEditor onSubmit={comment => addComment(comment)} />
 		</Pane>
 	</>
 )
