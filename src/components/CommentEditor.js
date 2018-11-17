@@ -54,7 +54,7 @@ class CommentEditor extends Component {
 		const { message, mentions } = this.state
 
 		return (
-			<div>
+			<div className={css({ padding: 10 })}>
 				<h2>Comment</h2>
 				<MessageEditor
 					message={message}
