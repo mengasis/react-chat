@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addComment } from '../actions'
 import { getComments } from '../reducers'
-import { Pane } from '../components/Pane'
-import { CommentsList } from '../components/CommentsList'
-import { CommentEditor } from '../components/CommentEditor'
+import Pane from '../components/Pane'
+import CommentsList from '../components/CommentsList'
+import CommentEditor from '../components/CommentEditor'
 
 const CommentsContainer = ({ comments, addComment }) => (
 	<>

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'react-emotion'
 
-import { MessageEditor } from './MessageEditor'
-import { Button } from './Button'
+import MessageEditor from './MessageEditor'
+import Button from './Button'
 
 const mentionOptions = [
 	{
@@ -24,7 +24,7 @@ const mentionOptions = [
 	}
 ]
 
-export class CommentEditor extends Component {
+class CommentEditor extends Component {
 	state = {
 		message: '',
 		mentions: []
@@ -77,3 +77,5 @@ export class CommentEditor extends Component {
 CommentEditor.propTypes = {
 	onSubmit: PropTypes.func.isRequired
 }
+
+export default CommentEditor

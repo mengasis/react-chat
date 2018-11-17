@@ -6,21 +6,21 @@ import TextareaAutosize from 'react-autosize-textarea'
 import Downshift from 'downshift'
 import matchSorter from 'match-sorter'
 
-import { escapeHtml } from '../utils/escape-html'
-import { DownshiftMenu, itemsArrayType } from './DownshiftMenu'
-import { Popover } from './Popover'
+import escapeHtml from '../utils/escape-html'
+import DownshiftMenu, { itemsArrayType } from './DownshiftMenu'
+import Popover from './Popover'
 
-export const focusStyle = {
+const focusStyle = {
 	outline: 'none',
 	borderColor: '#23cca4'
 }
 
-export const disabledStyle = {
+const disabledStyle = {
 	cursor: 'not-allowed',
 	opacity: 0.25
 }
 
-export const inputStyle = css`
+const inputStyle = css`
 	display: block;
 	width: 100%;
 	padding: 8px 10px;
@@ -99,7 +99,7 @@ const Absolute = styled('div')`
 	position: absolute;
 `
 
-export class MessageEditor extends React.Component {
+class MessageEditor extends React.Component {
 	constructor(props) {
 		super(props)
 
@@ -421,6 +421,8 @@ MessageEditor.defaultProps = {
 	onStateChange: () => {},
 	onSubmit: () => {}
 }
+
+export default MessageEditor
 
 // Utils
 // ======

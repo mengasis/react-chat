@@ -1,6 +1,6 @@
 import styled from 'react-emotion'
 
-export const Wrapper = styled('div')`
+export default styled('div')`
 	position: fixed;
 	top: 32px;
 	bottom: 32px;

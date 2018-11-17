@@ -9,7 +9,7 @@ const PositionWrapper = styled('div')`
 	z-index: 1000;
 `
 
-export class Popover extends React.Component {
+class Popover extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -224,3 +224,5 @@ Popover.defaultProps = {
 	placement: 'auto',
 	destroyOnHide: true
 }
+
+export default Popover
