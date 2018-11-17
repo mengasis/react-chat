@@ -1,8 +1,6 @@
 import _ from 'lodash'
-import React from 'react'
-import styled, { css } from 'react-emotion'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import TextareaAutosize from 'react-autosize-textarea'
 import Downshift from 'downshift'
 import matchSorter from 'match-sorter'
 
@@ -10,96 +8,13 @@ import escapeHtml from '../utils/escape-html'
 import DownshiftMenu, { itemsArrayType } from './DownshiftMenu'
 import Popover from './Popover'
 
-const focusStyle = {
-	outline: 'none',
-	borderColor: '#23cca4'
-}
+import Overflow from './commons/Overflow'
+import TextareaBackground from './commons/TextAreaBackground'
+import Textarea from './commons/TextArea'
+import Relative from './commons/Relative'
+import Absolute from './commons/Absolute'
 
-const disabledStyle = {
-	cursor: 'not-allowed',
-	opacity: 0.25
-}
-
-const inputStyle = css`
-	display: block;
-	width: 100%;
-	padding: 8px 10px;
-	margin: 0;
-	appearance: none;
-	font-family: inherit;
-	font-size: 16px;
-	line-height: 1.25;
-	color: inherit;
-	background-color: #fff;
-	border-radius: 4px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #d2d7e0;
-	transition: border-color 0.15s ease-in;
-
-	::placeholder {
-		opacity: 1;
-		color: #9ba1b0;
-	}
-
-	::-ms-clear {
-		display: none;
-	}
-
-	&:focus {
-		${focusStyle};
-	}
-
-	&:disabled {
-		${disabledStyle};
-	}
-`
-
-const Overflow = styled('div')`
-	${inputStyle} width: auto;
-	max-height: ${props => props.maxHeight};
-	overflow-x: hidden;
-	overflow-y: scroll;
-	padding: 0;
-
-	&:focus-within {
-		${focusStyle};
-	}
-`
-
-const TextareaBackground = styled('div')`
-	${inputStyle} position: absolute;
-	top: 0;
-	bottom: 0;
-	white-space: pre-wrap;
-	word-break: break-word;
-	color: transparent;
-	border: none;
-	padding-right: 24px;
-
-	span {
-		background-color: #23cca44c;
-		border-radius: 2px;
-	}
-`
-
-const Textarea = styled(TextareaAutosize)`
-	${inputStyle} position: relative;
-	background: transparent;
-	border: none;
-	resize: none;
-	padding-right: 24px;
-`
-
-const Relative = styled('div')`
-	position: relative;
-`
-
-const Absolute = styled('div')`
-	position: absolute;
-`
-
-class MessageEditor extends React.Component {
+class MessageEditor extends Component {
 	constructor(props) {
 		super(props)
 
