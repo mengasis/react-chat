@@ -27,16 +27,6 @@ class MessageEditor extends Component {
 	constructor(props) {
 		super(props)
 
-		this.defaultState = {
-			inputValue: '',
-			isOpen: false,
-			selectedItem: null,
-			highlightedIndex: 0,
-			mentions: [],
-			mentionQuery: null,
-			caretPosition: 0
-		}
-
 		this.state = {
 			...this.defaultState,
 			inputValue: props.message,
@@ -223,7 +213,7 @@ class MessageEditor extends Component {
 			placeholder,
 			maxHeight,
 			minHeight,
-			menuPlacement = 'top-start',
+			menuPlacement,
 			disabled,
 			disabledMessage
 		} = this.props
@@ -337,6 +327,7 @@ MessageEditor.propTypes = {
 MessageEditor.defaultProps = {
 	message: '',
 	mentions: [],
+	menuPlacement: 'top-start',
 	placeholder: 'Mention with @name',
 	maxHeight: `${5 * 24.5}px`,
 	disabled: false,
@@ -346,5 +337,14 @@ MessageEditor.defaultProps = {
 	onSubmit: () => {}
 }
 
-export default MessageEditor
+MessageEditor.defaultState = {
+	inputValue: '',
+	isOpen: false,
+	selectedItem: null,
+	highlightedIndex: 0,
+	mentions: [],
+	mentionQuery: null,
+	caretPosition: 0
+}
 
+export default MessageEditor
