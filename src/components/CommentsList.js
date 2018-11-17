@@ -6,8 +6,11 @@ import Comment from './Comment'
 const List = styled('ul')`
 	list-style: none;
 	margin: 0;
-	margin-bottom: 64px;
-	padding: 0;
+	padding: 10px;
+	overflow-y: auto;
+	height: 300px;
+	border: 1px solid #d2d7e0;
+	background: #f6fffd;
 `
 
 const ListItem = styled('li')`
