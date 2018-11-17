@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 import Comment from './Comment'
@@ -17,15 +17,38 @@ const ListItem = styled('li')`
 	margin-bottom: 32px;
 `
 
-const CommentsList = ({ comments }) => (
-	<List>
-		{comments.map(({ message, mentions }, index) => (
-			<ListItem key={index}>
-				<Comment message={message} mentions={mentions} />
-			</ListItem>
-		))}
-	</List>
-)
+class CommentsList extends Component {
+	constructor(props) {
+		super(props)
+
+		this.messagesEnd = React.createRef()
+	}
+
+	scrollToBottom = () => {
+		this.messagesEnd.parentNode.scrollTop = this.messagesEnd.offsetTop
+	}
+
+	componentDidUpdate() {
+		this.scrollToBottom()
+	}
+
+	render() {
+		return (
+			<List>
+				{this.props.comments.map(({ message, mentions }, index) => (
+					<ListItem key={index}>
+						<Comment message={message} mentions={mentions} />
+					</ListItem>
+				))}
+				<div
+					ref={el => {
+						this.messagesEnd = el
+					}}
+				/>
+			</List>
+		)
+	}
+}
 
 CommentsList.propTypes = {
 	comments: PropTypes.array
