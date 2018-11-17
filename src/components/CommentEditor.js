@@ -5,22 +5,27 @@ import { css } from 'react-emotion'
 import MessageEditor from './MessageEditor'
 import Button from './Button'
 
+// Todo: Pasar a Redux como initialState. Ver posibilidad de agregar nuevos.
 const mentionOptions = [
 	{
 		id: '1',
-		name: 'John Lennon'
+		name: 'Alexander the Great'
 	},
 	{
 		id: '2',
-		name: 'Paul McCartney'
+		name: 'Napoleón Bonaparte'
 	},
 	{
 		id: '3',
-		name: 'George Harrison'
+		name: 'Gengis Kan'
 	},
 	{
 		id: '4',
-		name: 'Ringo Starr'
+		name: 'Nabucodonosor II'
+	},
+	{
+		id: '5',
+		name: 'Julius Caesar'
 	}
 ]
 
@@ -33,6 +38,7 @@ class CommentEditor extends Component {
 	handleChange = (changes /*{ message, mentions }*/) => {
 		this.setState(changes)
 	}
+	// Todo: Hacer destructuring
 
 	handleSubmit = () => {
 		if (this.state.message.length > 0) {
