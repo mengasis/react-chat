@@ -1,4 +1,4 @@
-export const escapeHtml = text => {
+export default text => {
 	if (!text) {
 		return ''
 	} else {

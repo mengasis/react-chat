@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 
-import { TaggedMessage } from './TaggedMessage'
+import TaggedMessage from './TaggedMessage'
 
 export const Bubble = styled('div')`
 	background: #f7f8fa;
@@ -12,7 +12,7 @@ export const Bubble = styled('div')`
 	padding: 8px;
 `
 
-export const Comment = ({ message, mentions }) => (
+const Comment = ({ message, mentions }) => (
 	<Bubble>
 		<TaggedMessage message={message} mentions={mentions} />
 	</Bubble>
@@ -22,3 +22,5 @@ Comment.propTypes = {
 	message: PropTypes.string,
 	mentions: PropTypes.array
 }
+
+export default Comment

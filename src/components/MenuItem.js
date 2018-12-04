@@ -54,15 +54,7 @@ const MenuItemContent = ({ to, ...props }) => {
 	return to ? <MenuItemLink href={to} {...props} /> : <MenuItemButton {...props} />
 }
 
-export const MenuItem = ({
-	to,
-	addon,
-	selected,
-	highlighted,
-	disabled,
-	children,
-	...props
-}) => {
+const MenuItem = ({ to, addon, selected, highlighted, disabled, children, ...props }) => {
 	return (
 		<li>
 			<MenuItemContent
@@ -90,3 +82,5 @@ MenuItem.propTypes = {
 	disabled: PropTypes.bool,
 	children: PropTypes.node
 }
+
+export default MenuItem

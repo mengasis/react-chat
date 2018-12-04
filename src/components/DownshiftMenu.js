@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'react-emotion'
 import matchSorter from 'match-sorter'
 
-import { Menu } from './Menu'
-import { MenuItem } from './MenuItem'
+import Menu from './Menu'
+import MenuItem from './MenuItem'
 
 const DisabledMessage = styled('div')`
 	background: #f7f8fa;
@@ -15,7 +15,7 @@ const DisabledMessage = styled('div')`
 	text-align: center;
 `
 
-export const DownshiftMenu = ({
+const DownshiftMenu = ({
 	items,
 	filter,
 	isOpen,
@@ -103,3 +103,5 @@ DownshiftMenu.propTypes = {
 	minWidth: Menu.propTypes.minWidth,
 	disabledMessage: PropTypes.string
 }
+
+export default DownshiftMenu

@@ -1,6 +1,6 @@
 import styled from 'react-emotion'
 
-export const Button = styled('button')`
+export default styled('button')`
 	background: #23cca4;
 	border: none;
 	border-radius: 4px;

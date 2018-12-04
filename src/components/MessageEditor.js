@@ -1,117 +1,31 @@
 import _ from 'lodash'
-import React from 'react'
-import styled, { css } from 'react-emotion'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import TextareaAutosize from 'react-autosize-textarea'
 import Downshift from 'downshift'
 import matchSorter from 'match-sorter'
 
-import { escapeHtml } from '../utils/escape-html'
-import { DownshiftMenu, itemsArrayType } from './DownshiftMenu'
-import { Popover } from './Popover'
+import {
+	getCaretPosition,
+	getMentionQueryAtCaret,
+	updateMentions,
+	replaceMentionQuery,
+	createMention,
+	setCaretPosition,
+	getTaggedMessage
+} from '../utils/mentionHelpers'
 
-export const focusStyle = {
-	outline: 'none',
-	borderColor: '#23cca4'
-}
+import DownshiftMenu, { itemsArrayType } from './DownshiftMenu'
+import Popover from './Popover'
 
-export const disabledStyle = {
-	cursor: 'not-allowed',
-	opacity: 0.25
-}
+import Overflow from './commons/Overflow'
+import TextareaBackground from './commons/TextAreaBackground'
+import Textarea from './commons/TextArea'
+import Relative from './commons/Relative'
+import Absolute from './commons/Absolute'
 
-export const inputStyle = css`
-	display: block;
-	width: 100%;
-	padding: 8px 10px;
-	margin: 0;
-	appearance: none;
-	font-family: inherit;
-	font-size: 16px;
-	line-height: 1.25;
-	color: inherit;
-	background-color: #fff;
-	border-radius: 4px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #d2d7e0;
-	transition: border-color 0.15s ease-in;
-
-	::placeholder {
-		opacity: 1;
-		color: #9ba1b0;
-	}
-
-	::-ms-clear {
-		display: none;
-	}
-
-	&:focus {
-		${focusStyle};
-	}
-
-	&:disabled {
-		${disabledStyle};
-	}
-`
-
-const Overflow = styled('div')`
-	${inputStyle} width: auto;
-	max-height: ${props => props.maxHeight};
-	overflow-x: hidden;
-	overflow-y: scroll;
-	padding: 0;
-
-	&:focus-within {
-		${focusStyle};
-	}
-`
-
-const TextareaBackground = styled('div')`
-	${inputStyle} position: absolute;
-	top: 0;
-	bottom: 0;
-	white-space: pre-wrap;
-	word-break: break-word;
-	color: transparent;
-	border: none;
-	padding-right: 24px;
-
-	span {
-		background-color: #23cca44c;
-		border-radius: 2px;
-	}
-`
-
-const Textarea = styled(TextareaAutosize)`
-	${inputStyle} position: relative;
-	background: transparent;
-	border: none;
-	resize: none;
-	padding-right: 24px;
-`
-
-const Relative = styled('div')`
-	position: relative;
-`
-
-const Absolute = styled('div')`
-	position: absolute;
-`
-
-export class MessageEditor extends React.Component {
+class MessageEditor extends Component {
 	constructor(props) {
 		super(props)
-
-		this.defaultState = {
-			inputValue: '',
-			isOpen: false,
-			selectedItem: null,
-			highlightedIndex: 0,
-			mentions: [],
-			mentionQuery: null,
-			caretPosition: 0
-		}
 
 		this.state = {
 			...this.defaultState,
@@ -299,7 +213,7 @@ export class MessageEditor extends React.Component {
 			placeholder,
 			maxHeight,
 			minHeight,
-			menuPlacement = 'top-start',
+			menuPlacement,
 			disabled,
 			disabledMessage
 		} = this.props
@@ -413,6 +327,7 @@ MessageEditor.propTypes = {
 MessageEditor.defaultProps = {
 	message: '',
 	mentions: [],
+	menuPlacement: 'top-start',
 	placeholder: 'Mention with @name',
 	maxHeight: `${5 * 24.5}px`,
 	disabled: false,
@@ -422,142 +337,14 @@ MessageEditor.defaultProps = {
 	onSubmit: () => {}
 }
 
-// Utils
-// ======
-
-function createMention(mentionOption, index) {
-	return {
-		id: mentionOption.id,
-		type: mentionOption.type,
-		name: mentionOption.name,
-		length: mentionOption.name.length,
-		offset: index
-	}
+MessageEditor.defaultState = {
+	inputValue: '',
+	isOpen: false,
+	selectedItem: null,
+	highlightedIndex: 0,
+	mentions: [],
+	mentionQuery: null,
+	caretPosition: 0
 }
 
-function updateMentions(mentions, message) {
-	// ** IMPORTANT **
-	// We don't want to return a new mentions array if nothing has really changed
-
-	// Don't return anything new if mentions array is empty
-	if (mentions.length === 0) return mentions
-
-	let changed = false
-	let lookupPos = 0
-	let verifiedMentions = []
-
-	for (let i = 0; i < mentions.length; i++) {
-		const currentMention = mentions[i]
-
-		// find current mention name in message
-		const matchPos = message.indexOf(currentMention.name, lookupPos)
-
-		if (matchPos === -1) {
-			// if not found, finish loop and mark as changed
-			// this causes the omission/removal of subsequent mentions
-			changed = true
-			break
-		} else {
-			// if found, let's keep it
-			let verifiedMention = currentMention
-
-			// and if position has changed, update mention with new offset
-			if (currentMention.offset !== matchPos) {
-				verifiedMention = { ...currentMention, offset: matchPos }
-				changed = true
-			}
-
-			// add it to verified mentions array
-			verifiedMentions.push(verifiedMention)
-
-			// move lookup position ahead of current mention,
-			// so that we don't check it in next iteration
-			lookupPos = matchPos + currentMention.name.length
-		}
-	}
-
-	// Only return new verified mentions if something has changed
-	return changed ? verifiedMentions : mentions
-}
-
-function getMentionQueryAtCaret(message, caretPosition) {
-	const textUpToCaret = message.slice(0, caretPosition)
-
-	// Check @mentions up to 50 chars [a-zA-Z0-9]
-	const re = /(?:^|\s)@([a-zA-Z0-9]{0,50})$/g
-	const match = re.exec(textUpToCaret)
-
-	if (!match) return null
-
-	return {
-		text: match[1],
-		index: message[match.index] === '@' ? match.index : match.index + 1
-	}
-}
-
-function replaceMentionQuery(message, mentionQuery, replacement) {
-	let fragments = []
-	fragments.push(message.substring(0, mentionQuery.index))
-	fragments.push(replacement)
-	fragments.push(message.substring(mentionQuery.index + mentionQuery.text.length + 1))
-	return fragments.join('')
-}
-
-function getTaggedMessage(message, mentions) {
-	const tagPlaceholders = {
-		open: '__OPEN__',
-		close: '__CLOSE__'
-	}
-
-	let currentPos = 0
-	let fragments = []
-
-	for (let i = 0; i < mentions.length; i++) {
-		fragments.push(message.substring(currentPos, mentions[i].offset))
-		fragments.push(tagPlaceholders.open + mentions[i].name + tagPlaceholders.close)
-		currentPos = mentions[i].offset + mentions[i].name.length
-	}
-
-	fragments.push(message.substring(currentPos))
-
-	let result = fragments.join('')
-
-	result = escapeHtml(result)
-	result = result.replace(new RegExp(tagPlaceholders.open, 'g'), '<span>')
-	result = result.replace(new RegExp(tagPlaceholders.close, 'g'), '</span>')
-	result = result.replace(/\n/g, '<br>')
-
-	return { __html: result }
-}
-
-function getCaretPosition(el) {
-	if (el.selectionStart) {
-		return el.selectionStart
-	} else if (document.selection) {
-		el.focus()
-
-		let r = document.selection.createRange()
-		if (r === null) {
-			return 0
-		}
-
-		let re = el.createTextRange()
-		let rc = re.duplicate()
-		re.moveToBookmark(r.getBookmark())
-		rc.setEndPoint('EndToStart', re)
-
-		return rc.text.length
-	}
-	return 0
-}
-
-function setCaretPosition(el, pos) {
-	if (el.createTextRange) {
-		let range = el.createTextRange()
-		range.move('character', pos)
-		range.select()
-	} else if (el.selectionStart !== null) {
-		el.focus()
-		el.setSelectionRange(pos, pos)
-	}
-}
+export default MessageEditor

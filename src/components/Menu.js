@@ -8,7 +8,7 @@ const border = props =>
 		border-radius: 4px;
 	`
 
-export const Menu = styled('ul')`
+const Menu = styled('ul')`
 	background-color: #fff;
 	margin: 0;
 	padding: ${props => (props.compact ? '8px' : '24px')};
@@ -24,3 +24,5 @@ Menu.propTypes = {
 	borderless: PropTypes.bool,
 	children: PropTypes.node
 }
+
+export default Menu

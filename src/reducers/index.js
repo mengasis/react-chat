@@ -9,12 +9,12 @@ const getInitialComments = () => [
 		mentions: []
 	},
 	{
-		message: 'Ringo Starr you can drive my car.',
+		message: 'Julius Caesar can you drive my horse?',
 		mentions: [
 			{
-				id: '4',
-				length: 11,
-				name: 'Ringo Starr',
+				id: '5',
+				length: 13,
+				name: 'Julius Caesar',
 				offset: 0
 			}
 		]

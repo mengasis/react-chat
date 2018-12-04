@@ -12,7 +12,7 @@ const Tag = styled('span')`
 	box-shadow: 0 0 2px 0 #1eb18f;
 `
 
-export const TaggedMessage = ({ message, mentions }) => {
+const TaggedMessage = ({ message, mentions }) => {
 	let currentPos = 0
 	let fragments = []
 
@@ -57,3 +57,5 @@ TaggedMessage.propTypes = {
 		})
 	)
 }
+
+export default TaggedMessage

@@ -2,11 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { configureStore } from 'redux-starter-kit'
 import { Provider } from 'react-redux'
+import { injectGlobal } from 'react-emotion'
 
-import './index.css'
 import App from './App'
 import rootReducer from './reducers'
 import * as serviceWorker from './serviceWorker'
+import globalStyle from './config/gStyle'
+
+injectGlobal(globalStyle)
 
 const store = configureStore({ reducer: rootReducer })
 
