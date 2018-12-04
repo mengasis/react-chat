@@ -1,4 +1,5 @@
 # React Chat
+![module 🏎_downshift](https://img.shields.io/badge/module-🏎_downshift-lightgray.svg)
 
 ### Running
 ```
