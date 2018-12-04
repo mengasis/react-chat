@@ -1,38 +1,42 @@
 {
-	"name": "react-chat",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"downshift": "^3.1.5",
-		"emotion": "^9.2.12",
-		"match-sorter": "^2.3.0",
-		"react": "^16.6.3",
-		"react-autosize-textarea": "^5.0.0",
-		"react-dom": "^16.6.3",
-		"react-emotion": "^9.2.12",
-		"react-popper": "^1.3.0",
-		"react-redux": "^5.1.1",
-		"react-scripts": "2.1.1",
-		"redux": "^4.0.1",
-		"redux-starter-kit": "^0.2.0"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
-	},
-	"eslintConfig": {
-		"extends": "react-app"
-	},
-	"browserslist": [
-		">0.2%",
-		"not dead",
-		"not ie <= 11",
-		"not op_mini all"
-	],
-	"devDependencies": {
-		"eslint-plugin-react": "^7.11.1",
-		"stylelint-config-recommended": "^2.1.0"
-	}
+  "name": "react-chat",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://mengasis.github.io/react-chat/",
+  "dependencies": {
+    "downshift": "^3.1.5",
+    "emotion": "^9.2.12",
+    "match-sorter": "^2.3.0",
+    "react": "^16.6.3",
+    "react-autosize-textarea": "^5.0.0",
+    "react-dom": "^16.6.3",
+    "react-emotion": "^9.2.12",
+    "react-popper": "^1.3.0",
+    "react-redux": "^5.1.1",
+    "react-scripts": "2.1.1",
+    "redux": "^4.0.1",
+    "redux-starter-kit": "^0.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "eslint-plugin-react": "^7.11.1",
+    "gh-pages": "^2.0.1",
+    "stylelint-config-recommended": "^2.1.0"
+  }
 }
