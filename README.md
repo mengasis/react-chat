@@ -1,5 +1,5 @@
 # React Chat
-![module 🏎_downshift](https://img.shields.io/badge/module-🏎_downshift-lightgray.svg)
+[![module 🏎_downshift](https://img.shields.io/badge/module-🏎_downshift-lightgray.svg)](https://github.com/paypal/downshift)
 
 ### Running
 ```
